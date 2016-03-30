@@ -1,0 +1,60 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+   
+  <f:entry title="Url" field="url" help="/plugin/chefbuilder/url.html" >
+    <f:textbox />
+  </f:entry>
+   <f:validateButton
+                            title="${%Test Connection}" progress="${%Testing...}"
+                            method="testConnection"
+                            with="url"/>
+  <f:entry title="Cookbook filter" field="filter" help="/plugin/chefbuilder/filter.html" >
+    <f:textbox />
+  </f:entry>
+  
+   <f:validateButton
+                            title="${%Validate Syntax}" progress="${%Testing...}"
+                            method="validate"
+                            with="filter"/>
+                      
+  <f:validateButton
+                            title="${%Fetch Nodes}" progress="${%Fetching...}"
+                            method="fetch"
+                            with="filter"/>
+                            
+  <f:entry title="Username to connect with" field="username" help="/plugin/chefbuilder/username.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Port" field="port" help="/plugin/chefbuilder/port.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Command" field="command" help="/plugin/chefbuilder/command.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Private key file path" field="privatekey" help="/plugin/chefbuilder/key.html">
+    <f:textbox />
+  </f:entry>
+  
+                            
+  <f:entry title="Execute chef-client in parallel ?" field="parallel" help="/plugin/chefbuilder/parallel.html">
+    <f:checkbox />
+  </f:entry>
+  
+   <f:entry title="Fail the build if the chef client fails" field="fail" help="/plugin/chefbuilder/fail.html">
+    <f:checkbox />
+  </f:entry>
+  
+</j:jelly>
