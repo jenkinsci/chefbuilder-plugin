@@ -1,5 +1,5 @@
 Objectives: 
-Auto code deployment using chef-client using the filter provided based on the chef server configuration. This enables parallel execution of code ployments on all 
+Auto code deployment using chef-client using the filter provided based on the chef server configuration. This enables parallel execution of code deployments on all 
 available nodes and publish the result.
 
 Usage/Features:
