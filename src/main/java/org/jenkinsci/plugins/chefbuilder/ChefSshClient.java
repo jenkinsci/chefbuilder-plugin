@@ -6,8 +6,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
 
-import org.jenkinsci.plugins.chefbuilder.StringTest.MyUserInfo;
-
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;

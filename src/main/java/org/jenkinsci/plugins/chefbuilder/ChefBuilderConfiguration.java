@@ -34,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,7 +108,8 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-    	      listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
+    	String output = null;      
+    	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
               ChefXmlParser parser = new ChefXmlParser();
              
               ArrayList<Integer> exitValue = new ArrayList();
@@ -114,12 +117,25 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
                        	        	 
          	listener.getLogger().println("The nodes are : " + nodes);
          	ChefSshClient sch = new ChefSshClient();
+         	int MYTHREADS = nodes.size();
+            
+         	ExecutorService executor = Executors.newFixedThreadPool(MYTHREADS);
          	
          	for(int j=0;j<nodes.size();j++)
          	{
          		node = (String) nodes.get(j);
-         		String output = sch.runchefclient(node, username, port, privatekey, command);
+         		listener.getLogger().println("executing worker for node " + node);
+         		Runnable worker = new ChefThread(node, username, port, privatekey, command);
+         		executor.execute(worker);
+         		output = worker.toString();
          		listener.getLogger().println(output);
+         	}
+         	executor.shutdown();
+    		// Wait until all threads are finish
+    		while (!executor.isTerminated()) {
+     
+    		}
+    		listener.getLogger().println("\nFinished all threads");
          		if (output .contains("ChefClientException"))
          		{
          			exitValue.add(-1);
@@ -128,7 +144,6 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
          		{
          			exitValue.add(0);
          		}
-         	}
          	
          	if ((exitValue.contains(-1)) && (fail == true))
          	{

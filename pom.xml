@@ -11,8 +11,8 @@
     <relativePath/>
   </parent>
   <groupId>org.jenkins-ci.plugins</groupId>
-  <artifactId>chefbuilder</artifactId>
-  <version>1.1</version>
+  <artifactId>SinatraChefbuilder</artifactId>
+  <version>1.2</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
