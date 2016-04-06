@@ -13,29 +13,23 @@ import hudson.tasks.BuildStepDescriptor;
 import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
 
-import org.jenkinsci.plugins.chefbuilder.ChefSshClient.MyUserInfo;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,25 +110,53 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
               List nodes = parser.getListofNodes(filter);
                        	        	 
          	listener.getLogger().println("The nodes are : " + nodes);
-         	ChefSshClient sch = new ChefSshClient();
          	int MYTHREADS = nodes.size();
             
          	ExecutorService executor = Executors.newFixedThreadPool(MYTHREADS);
-         	
+            List<Future<String>> list = new ArrayList<Future<String>>();
+         	    	
          	for(int j=0;j<nodes.size();j++)
          	{
          		node = (String) nodes.get(j);
-         		listener.getLogger().println("executing worker for node " + node);
-         		Runnable worker = new ChefThread(node, username, port, privatekey, command);
-         		executor.execute(worker);
-         		output = worker.toString();
-         		listener.getLogger().println(output);
+         		Callable<String> callable = new ChefThread(node, username, port, privatekey, command);
+         		 Future<String> future = executor.submit(callable);
+         		 list.add(future);
          	}
-         	executor.shutdown();
-    		// Wait until all threads are finish
+         	
+         	 for(Future<String> fut : list){
+                 try {
+                     //print the return value of Future, notice the output delay in console
+                     // because Future.get() waits for task to get completed
+                	 listener.getLogger().println(new Date()+ "::"+fut.get());
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                     listener.getLogger().println(e);
+                 }
+             }
+         		//Runnable worker = new ChefThread(node, username, port, privatekey, command);
+         		//Runnable worker = t;
+         		/*Callable worker = t;
+         		executor.execute(worker);
+*/         		//	output = t.getOutput();
+         	//	listener.getLogger().println(output);
+         	 executor.shutdown();
+			return fail;
+         	 
+         	}
+         	
+           
+    		/*// Wait until all threads are finish
     		while (!executor.isTerminated()) {
      
     		}
+    		
+    		if (executor.isTerminated())
+    		{
+    			output = t.getOutput();
+    		}
+    		
+    		listener.getLogger().println("\nOutput is " + output);
+    		
     		listener.getLogger().println("\nFinished all threads");
          		if (output .contains("ChefClientException"))
          		{
@@ -157,9 +179,10 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
          	{
          		return true;
          	}
+			return fail;
 			         	
          	
-         	/*if ((exitValue.contains(-1)) && (fail == true))
+         	if ((exitValue.contains(-1)) && (fail == true))
          	{
          		listener.getLogger().println("in false");
          		return false;
@@ -171,9 +194,9 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
          	{
          		listener.getLogger().println("in true");
          		return true;
-         	}*/
-         	
-         }
+         	}
+*/         	
+         
     
     private static String getStringFromInputStream(InputStream is) {
 
@@ -342,9 +365,5 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
-	
 }
 
