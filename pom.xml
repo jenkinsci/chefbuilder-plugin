@@ -12,7 +12,7 @@
   </parent>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.2</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
