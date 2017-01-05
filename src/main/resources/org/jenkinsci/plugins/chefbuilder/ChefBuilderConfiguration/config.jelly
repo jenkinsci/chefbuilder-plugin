@@ -11,13 +11,17 @@
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
    
-  <f:entry title="Url" field="url" help="/plugin/sinatra-chef-builder/url.html" >
-    <f:textbox />
+  <f:entry title="Chef Web Server Url" help="/plugin/sinatra-chef-builder/url.html" >
+    <f:textbox field="url" />
   </f:entry>
+     <f:entry title="Chef Sinatra web Url" help="/plugin/sinatra-chef-builder/sinatraurl.html" >
+    <f:textbox field="sinatraurl" />
+     </f:entry>
    <f:validateButton
                             title="${%Test Connection}" progress="${%Testing...}"
                             method="testConnection"
-                            with="url"/>
+                            with="url,sinatraurl"/>
+   
   <f:entry title="Cookbook filter" field="filter" help="/plugin/sinatra-chef-builder/filter.html" >
     <f:textbox />
   </f:entry>
@@ -27,10 +31,11 @@
                             method="validate"
                             with="filter"/>
                       
+ 
   <f:validateButton
                             title="${%Fetch Nodes}" progress="${%Fetching...}"
                             method="fetch"
-                            with="filter"/>
+                            with="sinatraurl,filter"/>
                             
   <f:entry title="Username to connect with" field="username" help="/plugin/sinatra-chef-builder/username.html">
     <f:textbox />

@@ -36,31 +36,22 @@ import java.util.regex.Pattern;
 
 public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep {
 
-    private final String url;
-    private final String filter;
-    private final boolean parallel;
-    private final boolean fail;
-    private final int port;
-    private final String username;
-    private final String command;
-    private final String privatekey;
+    private String url;
+    private String sinatraurl;
+    private static String filter;
+    private boolean parallel;
+    private boolean fail;
+    private int port;
+    private String username;
+    private String command;
+    private String privatekey;
     private static List<String> nodes = new ArrayList<String>();
     private String node;
     
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public ChefBuilderConfiguration(String url, String filter, boolean parallel, boolean fail, List<String> nodes, int port, String username, String privatekey, String command, String node) {
-        this.url = url;
-        this.filter = filter;
-        this.parallel = parallel;
-        this.fail = fail;
-        this.nodes = nodes;
-        this.username = username;
-        this.port = port;
-        this.privatekey = privatekey;
-        this.command = command;
-        this.node = node;
+    public ChefBuilderConfiguration() {
         
     }
 
@@ -71,7 +62,11 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         return url;
     }
     
-    public String getFilter() {
+    public String getSinatraUrl() {
+        return sinatraurl;
+    }
+    
+    public static String getFilter() {
         return filter;
     }
     
@@ -107,7 +102,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
               ChefXmlParser parser = new ChefXmlParser();
              
               ArrayList<Integer> exitValue = new ArrayList();
-              List nodes = parser.getListofNodes(filter);
+              List nodes = parser.getListofNodes(filter,sinatraurl);
                        	        	 
          	listener.getLogger().println("The nodes are : " + nodes);
          	int MYTHREADS = nodes.size();
@@ -258,32 +253,42 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         		
         }*/
          
-         public FormValidation doTestConnection(@QueryParameter String url
+         public FormValidation doTestConnection(@QueryParameter String url, @QueryParameter String sinatraurl, String filter
 	        ) {
         	 
+        	// System.out.println("value of url is " + url);
+        //	 System.out.println("value of sinatraurl is " + sinatraurl);
         	 try
         	 {
         		 URL url1 = new URL(url);
+        		 URL url2 = new URL(sinatraurl);
         		 HttpURLConnection connection = (HttpURLConnection)url1.openConnection();
+        		 HttpURLConnection connection1 = (HttpURLConnection)url2.openConnection();
         		 connection.setRequestMethod("GET");
+        		 connection1.setRequestMethod("GET");
         		 connection.connect();
+        		 connection1.connect();
 
         		 int code = connection.getResponseCode();
-        		 if (code == 200)
+        		 int sinatracode = connection1.getResponseCode();
+        		 
+        		 if ((code == 200) && (sinatracode == 200))
         		 {
-        			 return FormValidation.ok("SUCCESS");
+        			 return FormValidation.ok("SUCCESS: able to connect chef server URL and sinatra URL");
+        			 
         		 }
         		 else 
         		 {
-        			 return FormValidation.error("connection failed");
+        			 return FormValidation.error("connection to chef server web URL OR Sinatra web URL is failed. The HTTP URL connection code for chef server URL is" + code + " and connection code for sinatra web URL is " + sinatracode);
         		 }
         	 }
         	 catch (Exception e)
         	 {
-        		 return FormValidation.error("some issue");
+        		 return FormValidation.error("some issue while connecting to chef OR sinatra web server URL");
         	 }
          }
          
+                
          public FormValidation doValidate(@QueryParameter String filter) {
         	 try
         	 {
@@ -292,16 +297,16 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         		        		 
             	 Pattern r = Pattern.compile(pattern);
             	 Pattern r1 = Pattern.compile(pattern1);
-            	  System.out.println("the value of filter is :"+ filter);
+            	//  System.out.println("the value of filter is :"+ filter);
      
             	 Matcher m = r.matcher(filter);
             	 Matcher m1 = r1.matcher(filter);
             	   if (m.find() ) {
-            		   return FormValidation.ok("SUCCESS. however, there may be multiple strings matching same pattern. That is not correct. Be careful !!!");
+            		   return FormValidation.ok("SUCCESS. however, there may be multiple strings matching same pattern. That might be not correct. Be careful !!!");
             	   }
             	  
             	   else if (m1.find() ) {
-            		   return FormValidation.ok("SUCCESS. however, there may be multiple strings matching same pattern. That is not correct. Be careful !!!");
+            		   return FormValidation.ok("SUCCESS. however, there may be multiple strings matching same pattern. That might be not correct. Be careful !!!");
             	   }
             	   else
             	   {
@@ -316,13 +321,14 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
       }
          
          @SuppressWarnings({"unchecked" })
-		public FormValidation doFetch(@QueryParameter String filter) {
-        	
-        	
+		public FormValidation doFetch(@QueryParameter String filter, @QueryParameter String sinatraurl) {
+        	  
+        //	 System.out.println("filter value in fetch is :" + filter  );
+        //	 System.out.println("filter value in fetch is :" + sinatraurl  );
         	 try
         	 {
         	 ChefXmlParser a = new ChefXmlParser();
-        	 nodes = a.getListofNodes(filter);
+        	 nodes = a.getListofNodes(filter,sinatraurl);
         	 }
         	 catch (Exception e)
         	 {

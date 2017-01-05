@@ -30,21 +30,25 @@ import org.xml.sax.SAXException;
 public class ChefXmlParser 
 { 
 	public String filter;
+	public String sinatraurl;
 public ChefXmlParser()
 {
 	}
 
 @SuppressWarnings("rawtypes")
-public List getListofNodes(String filter)
+public List getListofNodes(String filter, String sinatraurl)
 {
 	this.filter = filter;
+	this.sinatraurl = sinatraurl;
 	 List<String> nodes = new ArrayList<String>();
 	 String[] actRec = null;
 	 String[] dvdfilter = null;
 
 	 try {
    	  
-         URL oracle = new URL("http://192.168.102.126:9980/");
+		// System.out.println("the value of sinatra url in xml is :"+ sinatraurl);
+		// System.out.println("the value of filter in xml is :"+ filter);
+         URL oracle = new URL(sinatraurl);
          BufferedReader in = new BufferedReader(
          new InputStreamReader(oracle.openStream()));
 
@@ -89,7 +93,7 @@ public List getListofNodes(String filter)
         NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(doc, XPathConstants.NODESET);
       //  System.out.println("the value of nodelist is :" + nodeList.getLength());
         for (int i = 0; i < nodeList.getLength(); i++) {
-        	  System.out.println("the value of i is " + i);
+        	//  System.out.println("the value of i is " + i);
            Node nNode = nodeList.item(i);
            Element eElement = (Element) nNode;
         //   System.out.println("in the for block");

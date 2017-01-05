@@ -3,5 +3,5 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  Chef Builder plugin to fetch the nodes based on filter.
+  Chef Builder plugin to fetch the nodes based on filter and run the chef-client on fetched nodes
 </div>
