@@ -11,8 +11,8 @@
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
     <!-- Baseline Jenkins version you use to build and test the plugin. Users must have this version or newer to run. -->
-    <version>2.3</version>
-    <relativePath />
+    <version>2.5</version>
+    <relativePath/>
   </parent>
   
    <properties>
@@ -20,7 +20,6 @@
     <hpi-plugin.version>1.106</hpi-plugin.version>
   </properties>
   
-  <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>sinatra-chef-builder</artifactId>
   <version>1.5-SNAPSHOT</version>
   <packaging>hpi</packaging>
@@ -52,6 +51,7 @@
   </developers>
 
   <build>
+  <pluginManagement>
    <plugins>
        <plugin>
                 <artifactId>maven-release-plugin</artifactId>
@@ -61,6 +61,7 @@
                 </configuration>
         </plugin>
    </plugins>
+   </pluginManagement>
   </build>
 
  
@@ -91,12 +92,5 @@
 </dependency>
 
 </dependencies>
-
- <distributionManagement>
-    <repository>
-      <id>java.net-m2-repository</id>
-      <url>http://maven.jenkins-ci.org/content/repositories/releases/</url>
-    </repository>
-  </distributionManagement>
 
 </project>
