@@ -21,9 +21,9 @@
       <java.level>8</java.level>
   </properties>
   
- <!--  <artifactId>sinatra-chef-builder</artifactId>
+  <artifactId>sinatra-chef-builder</artifactId>
   <version>1.5-SNAPSHOT</version>
-  <packaging>hpi</packaging> -->
+  <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
   <description>Chef Sinatra Jenkins plugin</description>
