@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -43,7 +44,7 @@ public class ChefSshClient {
 			  ((ChannelExec)channel).setCommand("sudo -S " + command);
 			  
 			  InputStream in=channel.getInputStream();
-		      OutputStream out=channel.getOutputStream();
+		   //   OutputStream out=channel.getOutputStream();
 		      ((ChannelExec)channel).setErrStream(System.err);
 		      channel.connect();
 		      		      			
@@ -53,7 +54,7 @@ public class ChefSshClient {
 			          int i=in.read(bt, 0, 1024);
 			          if(i<0)break;
 			         // listener.getLogger().println(new String(bt, 0, i));
-			          writer.write(new String(bt, 0, i));
+			          writer.write(new String(bt, 0, i, Charset.defaultCharset()));
 			          
 			        }
 			        if(channel.isClosed()){
@@ -62,7 +63,7 @@ public class ChefSshClient {
 			     
 			          break;
 			        }
-			        try{Thread.sleep(1000);}catch(Exception ee){}
+			    //    try{Thread.sleep(1000);}catch(Exception ee){}
 			      }
 			 	  finalOut = writer.toString();
 			      channel.disconnect();
