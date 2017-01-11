@@ -54,8 +54,7 @@ public List getListofNodes(String filter, String sinatraurl)
 		// System.out.println("the value of sinatra url in xml is :"+ sinatraurl);
 		// System.out.println("the value of filter in xml is :"+ filter);
          URL oracle = new URL(sinatraurl);
-         BufferedReader in = new BufferedReader(
-         new InputStreamReader(oracle.openStream()));
+         BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream(),Charset.defaultCharset()));
 
          File file = new File("/tmp/nodesxml.xml");
          File file1 = new File("/tmp/project.dtd");
