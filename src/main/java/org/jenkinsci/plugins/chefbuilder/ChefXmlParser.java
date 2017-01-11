@@ -57,15 +57,15 @@ public List getListofNodes(String filter, String sinatraurl)
          BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream(),Charset.defaultCharset()));
 
          File file = new File("/tmp/nodesxml.xml");
-         File file1 = new File("/tmp/project.dtd");
+    //     File file1 = new File("/tmp/project.dtd");
          
      	if (!file.exists()) {
 			file.createNewFile();
 		}
 		
-		if (!file1.exists()) {
+	/*	if (!file1.exists()) {
 			file1.createNewFile();
-		}
+		}*/
 		
 //		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		Writer fw = null;
