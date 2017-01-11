@@ -43,8 +43,8 @@ public ChefXmlParser()
 @SuppressWarnings("rawtypes")
 public List getListofNodes(String filter, String sinatraurl)
 {
-	this.filter = filter;
-	this.sinatraurl = sinatraurl;
+//	this.filter = filter;
+//	this.sinatraurl = sinatraurl;
 	 List<String> nodes = new ArrayList<String>();
 	 String[] actRec = null;
 	 String[] dvdfilter = null;
@@ -58,9 +58,9 @@ public List getListofNodes(String filter, String sinatraurl)
 
          File file = new File("/tmp/nodesxml.xml");
     //     File file1 = new File("/tmp/project.dtd");
-         
+        boolean bool = false; 
      	if (!file.exists()) {
-			file.createNewFile();
+			bool = file.createNewFile();
 		}
 		
 	/*	if (!file1.exists()) {
