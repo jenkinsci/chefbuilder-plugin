@@ -61,6 +61,7 @@ public List getListofNodes(String filter, String sinatraurl)
         boolean bool = false; 
      	if (!file.exists()) {
 			bool = file.createNewFile();
+			System.out.println("return value of bool is " + bool);
 		}
 		
 	/*	if (!file1.exists()) {
