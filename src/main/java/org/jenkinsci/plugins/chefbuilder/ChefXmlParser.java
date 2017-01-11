@@ -3,11 +3,15 @@ package org.jenkinsci.plugins.chefbuilder;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +68,9 @@ public List getListofNodes(String filter, String sinatraurl)
 			file1.createNewFile();
 		}
 		
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		Writer fw = null;
+		fw = new OutputStreamWriter(new FileOutputStream(file.getAbsoluteFile()),"UTF-8");
 		BufferedWriter bw = new BufferedWriter(fw);
 
         String inputLine;
