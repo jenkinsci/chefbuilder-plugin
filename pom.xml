@@ -7,7 +7,7 @@
     <artifactId>plugin</artifactId>
     <!-- Baseline Jenkins version you use to build and test the plugin. Users must have this version or newer to run. -->
     <version>2.11</version>
-    <relativePath/>
+    <relativePath />
   </parent>
   
    <properties>
@@ -17,7 +17,7 @@
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
@@ -35,7 +35,7 @@
       <!--<developerConnection>scm:git:git@github.com:jenkinsci/chefbuilder-plugin.git</developerConnection> -->
        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/chefbuilder-plugin.git</developerConnection>
       <url>http://github.com/jenkinsci/chefbuilder-plugin</url>
-    <tag>HEAD</tag>
+    <tag>sinatra-chef-builder-1.5</tag>
   </scm>
   
    <developers>

@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -101,7 +103,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
     	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
               ChefXmlParser parser = new ChefXmlParser();
              
-              ArrayList<Integer> exitValue = new ArrayList();
+         //     ArrayList<Integer> exitValue = new ArrayList();
               List nodes = parser.getListofNodes(filter,sinatraurl);
                        	        	 
          	listener.getLogger().println("The nodes are : " + nodes);
@@ -193,7 +195,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 */         	
          
     
-    private static String getStringFromInputStream(InputStream is) {
+/*    private static String getStringFromInputStream(InputStream is) {
 
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();
@@ -220,7 +222,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 
 		return sb.toString();
 
-	}
+	}*/
 
 
     @Override
@@ -254,7 +256,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         }*/
          
          public FormValidation doTestConnection(@QueryParameter String url, @QueryParameter String sinatraurl, String filter
-	        ) {
+	        ) throws IOException {
         	 
         	// System.out.println("value of url is " + url);
         //	 System.out.println("value of sinatraurl is " + sinatraurl);
@@ -282,10 +284,16 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         			 return FormValidation.error("connection to chef server web URL OR Sinatra web URL is failed. The HTTP URL connection code for chef server URL is" + code + " and connection code for sinatra web URL is " + sinatracode);
         		 }
         	 }
+        	 catch (RuntimeException e)
+        	 {
+        		 throw e;
+        	 }
+        	 
         	 catch (Exception e)
         	 {
-        		 return FormValidation.error("some issue while connecting to chef OR sinatra web server URL");
+        		return FormValidation.error("some issue while connecting to chef OR sinatra web server URL");
         	 }
+        	 
          }
          
                 
