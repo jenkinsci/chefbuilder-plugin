@@ -16,7 +16,7 @@
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.9</version>
+  <version>1.10-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
@@ -34,7 +34,7 @@
       <!--<developerConnection>scm:git:git@github.com:jenkinsci/chefbuilder-plugin.git</developerConnection> -->
        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/chefbuilder-plugin.git</developerConnection>
       <url>http://github.com/jenkinsci/chefbuilder-plugin</url>
-    <tag>sinatra-chef-builder-1.9</tag>
+    <tag>HEAD</tag>
   </scm>
   
    <developers>
