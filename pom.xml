@@ -31,7 +31,7 @@
   
    <scm>
       <connection>scm:git:git://github.com/jenkinsci/sinatra-chef-builder-plugin.git</connection>
-     <developerConnection>scm:git:git@github.com/jenkinsci/sinatra-chef-builder-plugin.git</developerConnection>
+     <developerConnection>scm:git:git@github.com:jenkinsci/sinatra-chef-builder-plugin.git</developerConnection>
      <tag>sinatra-chef-builder-1.10</tag>
   </scm>
   
