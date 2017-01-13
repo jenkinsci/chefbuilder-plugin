@@ -30,11 +30,9 @@
   </licenses>
   
    <scm>
-      <connection>scm:git:git://github.com/jenkinsci/chefbuilder-plugin.git</connection>
-      <!--<developerConnection>scm:git:git@github.com:jenkinsci/chefbuilder-plugin.git</developerConnection> -->
-       <developerConnection>scm:git:ssh://git@github.com/jenkinsci/chefbuilder-plugin.git</developerConnection>
-      <url>http://github.com/jenkinsci/chefbuilder-plugin</url>
-    <tag>HEAD</tag>
+      <connection>scm:git:git://github.com/jenkinsci/sinatra-chef-builder-plugin.git</connection>
+     <developerConnection>scm:git:git@github.com/jenkinsci/sinatra-chef-builder-plugin.git</developerConnection>
+     <tag>HEAD</tag>
   </scm>
   
    <developers>
