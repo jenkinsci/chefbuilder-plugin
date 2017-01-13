@@ -16,7 +16,7 @@
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.10</version>
+  <version>1.10-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
