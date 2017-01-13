@@ -12,8 +12,7 @@
   
    <properties>
     <jenkins.version>1.609.1</jenkins.version>
-    <hpi-plugin.version>1.106</hpi-plugin.version>
-      <java.level>8</java.level>
+   <java.level>8</java.level>
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
