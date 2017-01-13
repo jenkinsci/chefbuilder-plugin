@@ -36,25 +36,33 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep {
+public class ChefBuilderConfiguration extends Builder {
 
-    private String url;
-    private String sinatraurl;
-    private static String filter;
-    private boolean parallel;
-    private boolean fail;
-    private int port;
-    private String username;
-    private String command;
-    private String privatekey;
+    private final String url;
+    private final String sinatraurl;
+    private final String filter;
+    private final boolean parallel;
+    private final boolean fail;
+    private final int port;
+    private final String username;
+    private final String command;
+    private final String privatekey;
     private static List<String> nodes = new ArrayList<String>();
     private String node;
     
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
-    public ChefBuilderConfiguration() {
-        
+    public ChefBuilderConfiguration(String url, String sinatraurl, String filter, String username, int port, String command, String privatekey, boolean parallel, boolean fail ) {
+        this.url = url;
+        this.sinatraurl = sinatraurl;
+        this.filter = filter;
+        this.username = username;
+        this.port = port;
+        this.command = command;
+        this.privatekey = privatekey;
+        this.parallel = parallel;
+        this.fail = fail;
     }
 
     /**
@@ -68,15 +76,15 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
         return sinatraurl;
     }
     
-    public static String getFilter() {
+    public String getFilter() {
         return filter;
     }
     
-    public boolean isParallel() {
+    public boolean getParallel() {
         return parallel;
     }
     
-    public boolean isFail() {
+    public boolean getFail() {
         return fail;
     }
     
@@ -137,7 +145,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 */         		//	output = t.getOutput();
          	//	listener.getLogger().println(output);
          	 executor.shutdown();
-			return fail;
+			return true;
          	 
          	}
          	
@@ -232,29 +240,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
    
     @Extension // This indicates to Jenkins that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-         @SuppressWarnings("unused")
-		private static final Level SEVERE = null;
-
-		public DescriptorImpl() {
-            load();
-        }
-
-       
-      /*  public FormValidation doCheckUrl(@QueryParameter String urlvalue)
-                throws IOException, ServletException {
-        		if (urlvalue.length() == 0)
-        		{
-        	   return FormValidation.error("Please set a name");
-        		}
-        		else if (urlvalue.length() != 0)
-        		{  
-                  return FormValidation.ok();
-        		}
-        		
-        		return FormValidation.ok();
-        		
-        }*/
-         
+               
          public FormValidation doTestConnection(@QueryParameter String url, @QueryParameter String sinatraurl, String filter
 	        ) throws IOException {
         	 
@@ -372,12 +358,5 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
             return super.configure(req,formData);
         }
     }
-
-	@Override
-	public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener)
-			throws InterruptedException, IOException {
-		// TODO Auto-generated method stub
-		
-	}
 }
 
