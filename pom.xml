@@ -16,7 +16,7 @@
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.11-SNAPSHOT</version>
+  <version>1.11</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
@@ -32,7 +32,7 @@
    <scm>
       <connection>scm:git:git://github.com/jenkinsci/sinatra-chef-builder-plugin.git</connection>
      <developerConnection>scm:git:git@github.com:jenkinsci/sinatra-chef-builder-plugin.git</developerConnection>
-     <tag>sinatra-chef-builder-1.10</tag>
+     <tag>sinatra-chef-builder-1.11</tag>
   </scm>
   
    <developers>
