@@ -72,4 +72,20 @@
 
 </dependencies>
 
+ <distributionManagement>
+   <snapshotRepository>
+     
+      <id>propSnap</id>
+    
+      <url>https://repo.jenkins-ci.org/snapshots</url>
+     
+    </snapshotRepository>
+    <repository>
+      
+      <id>propRel</id>
+      
+      <url>https://repo.jenkins-ci.org/releases</url>
+      
+    </repository>
+  </distributionManagement>
 </project>

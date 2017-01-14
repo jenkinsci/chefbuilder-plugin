@@ -72,7 +72,7 @@ public class ChefBuilderConfiguration extends Builder {
         return url;
     }
     
-    public String getSinatraUrl() {
+    public String getSinatraurl() {
         return sinatraurl;
     }
     

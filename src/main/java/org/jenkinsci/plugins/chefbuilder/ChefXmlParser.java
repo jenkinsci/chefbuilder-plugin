@@ -57,23 +57,24 @@ public List getListofNodes(String filter, String sinatraurl)
          BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream(),Charset.defaultCharset()));
 
          File file = new File("/tmp/nodesxml.xml");
-    //     File file1 = new File("/tmp/project.dtd");
+         File file1 = new File("/tmp/project.dtd");
         boolean bool = false; 
+        boolean bool1 = false;
      	if (!file.exists()) {
 			bool = file.createNewFile();
 			System.out.println("return value of bool is " + bool);
 		}
 		
-	/*	if (!file1.exists()) {
-			file1.createNewFile();
-		}*/
+		if (!file1.exists()) {
+			bool1 = file1.createNewFile();
+			System.out.println("return value of bool1 is " + bool1);
+		}
 		
-//		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		Writer fw = null;
 		fw = new OutputStreamWriter(new FileOutputStream(file.getAbsoluteFile()),"UTF-8");
 		BufferedWriter bw = new BufferedWriter(fw);
-
-        String inputLine;
+		
+	    String inputLine;
         while ((inputLine = in.readLine()) != null)
         {
          //   System.out.println(inputLine);
@@ -82,7 +83,8 @@ public List getListofNodes(String filter, String sinatraurl)
         }
         bw.close();	
         in.close();
- 
+        
+      
         DocumentBuilderFactory dbFactory 
            = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
