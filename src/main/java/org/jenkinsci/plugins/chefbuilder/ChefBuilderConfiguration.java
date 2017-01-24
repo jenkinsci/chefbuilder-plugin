@@ -109,6 +109,7 @@ public class ChefBuilderConfiguration extends Builder {
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
     	String output = null;      
     	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
+    	listener.getLogger().println("Fail the build if the command fails to run on any of the chef node is set to : " + fail);
               ChefXmlParser parser = new ChefXmlParser();
              
          //     ArrayList<Integer> exitValue = new ArrayList();
@@ -133,6 +134,7 @@ public class ChefBuilderConfiguration extends Builder {
                      //print the return value of Future, notice the output delay in console
                      // because Future.get() waits for task to get completed
                 	 listener.getLogger().println(new Date()+ "::"+fut.get());
+                	 
                  } catch (Exception e) {
                      e.printStackTrace();
                      listener.getLogger().println(e);
