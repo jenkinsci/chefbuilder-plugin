@@ -16,7 +16,7 @@
   </properties>
   
   <artifactId>sinatra-chef-builder</artifactId>
-  <version>1.16-SNAPSHOT</version>
+  <version>1.16</version>
   <packaging>hpi</packaging>
 
   <name>Chef Sinatra Jenkins plugin</name>
@@ -118,7 +118,7 @@
  									</goals>
  								</pluginExecutionFilter>
  								<action>
- 									<ignore></ignore>
+ 									<ignore />
  								</action>
  							</pluginExecution>
  						</pluginExecutions>
