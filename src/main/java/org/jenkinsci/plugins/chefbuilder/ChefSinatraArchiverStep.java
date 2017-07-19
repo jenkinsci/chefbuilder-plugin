@@ -18,6 +18,8 @@ import com.google.inject.Inject;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
+import hudson.model.AbstractBuild;
+import hudson.model.BuildListener;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 
@@ -58,8 +60,8 @@ public class ChefSinatraArchiverStep extends AbstractStepImpl {
     public static class ChefSinatraStepExecution extends AbstractSynchronousStepExecution<Void> {
     	
     	 @Inject private transient ChefSinatraArchiverStep step; 
-    	 @StepContextParameter private transient Run<?, ?> build; 
-    	 @StepContextParameter private transient TaskListener listener;
+    	 @StepContextParameter private transient AbstractBuild<?,?> build; 
+    	 @StepContextParameter private transient BuildListener listener;
     	 @StepContextParameter
     	    private transient Launcher launcher;
 		@Override

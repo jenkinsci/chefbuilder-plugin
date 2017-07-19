@@ -34,10 +34,10 @@ import org.xml.sax.SAXException;
  
 public class ChefXmlParser 
 { 
-	//public String filter;
-	//public String sinatraurl;
+	
 public ChefXmlParser()
 {
+	
 	}
 
 @SuppressWarnings("rawtypes")

@@ -17,14 +17,9 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.QueryParameter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +27,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +34,7 @@ import javax.annotation.Nonnull;
 
 public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep  {
 	
-	private Run<?, ?> run;
+	//private Run<?, ?> run;
 
     public final String url;
     public final String sinatraurl;
@@ -111,15 +105,17 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-    	String output = null;
-    	this.run = build;
+    	@SuppressWarnings("unused")
+		String output = null;
+    	//this.run = build;
     	
     	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
     	listener.getLogger().println("Fail the build if the command fails to run on any of the chef node is set to : " + fail);
               ChefXmlParser parser = new ChefXmlParser();
              
          //     ArrayList<Integer> exitValue = new ArrayList();
-              List nodes = parser.getListofNodes(filter,sinatraurl);
+              @SuppressWarnings("rawtypes")
+			List nodes = parser.getListofNodes(filter,sinatraurl);
                        	        	 
          	listener.getLogger().println("The nodes are : " + nodes);
          	int MYTHREADS = nodes.size();
@@ -157,52 +153,7 @@ public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep
 			return true;
          	 
          	}
-    public void perform(@Nonnull Run<?, ?> run, @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws InterruptedException, IOException {
-    	String output = null;     
-    	this.run = run;
-    	
-    	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
-    	listener.getLogger().println("Fail the build if the command fails to run on any of the chef node is set to : " + fail);
-    	listener.getLogger().println("sinatra url is  : " + sinatraurl);
-              ChefXmlParser parser = new ChefXmlParser();
-             
-         //     ArrayList<Integer> exitValue = new ArrayList();
-              List nodes = parser.getListofNodes(filter,sinatraurl);
-                       	        	 
-         	listener.getLogger().println("The nodes are : " + nodes);
-         	int MYTHREADS = nodes.size();
-            
-         	ExecutorService executor = Executors.newFixedThreadPool(MYTHREADS);
-            List<Future<String>> list = new ArrayList<Future<String>>();
-         	    	
-         	for(int j=0;j<nodes.size();j++)
-         	{
-         		node = (String) nodes.get(j);
-         		Callable<String> callable = new ChefThread(node, username, port, privatekey, command);
-         		 Future<String> future = executor.submit(callable);
-         		 list.add(future);
-         	}
-         	
-         	 for(Future<String> fut : list){
-                 try {
-                     //print the return value of Future, notice the output delay in console
-                     // because Future.get() waits for task to get completed
-                	 listener.getLogger().println(new Date()+ "::"+fut.get());
-                	 
-                 } catch (Exception e) {
-                     e.printStackTrace();
-                     listener.getLogger().println(e);
-                 }
-             }
-         		//Runnable worker = new ChefThread(node, username, port, privatekey, command);
-         		//Runnable worker = t;
-         		/*Callable worker = t;
-         		executor.execute(worker);
-*/         		//	output = t.getOutput();
-         	//	listener.getLogger().println(output);
-         	 executor.shutdown();
-			 
-         	}
+    
            
     		/*// Wait until all threads are finish
     		while (!executor.isTerminated()) {
