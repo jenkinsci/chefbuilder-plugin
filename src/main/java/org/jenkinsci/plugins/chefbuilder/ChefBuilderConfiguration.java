@@ -36,19 +36,23 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ChefBuilderConfiguration extends Builder {
+import javax.annotation.Nonnull;
 
-    private final String url;
-    private final String sinatraurl;
-    private final String filter;
-    private final boolean parallel;
-    private final boolean fail;
-    private final int port;
-    private final String username;
-    private final String command;
-    private final String privatekey;
-    private static List<String> nodes = new ArrayList<String>();
-    private String node;
+public class ChefBuilderConfiguration extends Builder implements SimpleBuildStep  {
+	
+	private Run<?, ?> run;
+
+    public final String url;
+    public final String sinatraurl;
+    public final String filter;
+    public final boolean parallel;
+    public final boolean fail;
+    public final int port;
+    public final String username;
+    public final String command;
+    public final String privatekey;
+    public static List<String> nodes = new ArrayList<String>();
+    public String node;
     
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
@@ -107,9 +111,59 @@ public class ChefBuilderConfiguration extends Builder {
 
     @Override
     public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-    	String output = null;      
+    	String output = null;
+    	this.run = build;
+    	
     	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
     	listener.getLogger().println("Fail the build if the command fails to run on any of the chef node is set to : " + fail);
+              ChefXmlParser parser = new ChefXmlParser();
+             
+         //     ArrayList<Integer> exitValue = new ArrayList();
+              List nodes = parser.getListofNodes(filter,sinatraurl);
+                       	        	 
+         	listener.getLogger().println("The nodes are : " + nodes);
+         	int MYTHREADS = nodes.size();
+            
+         	ExecutorService executor = Executors.newFixedThreadPool(MYTHREADS);
+         	
+            List<Future<String>> list = new ArrayList<Future<String>>();
+         	    	
+         	for(int j=0;j<nodes.size();j++)
+         	{
+         		node = (String) nodes.get(j);
+         		Callable<String> callable = new ChefThread(node, username, port, privatekey, command);
+         		 Future<String> future = executor.submit(callable);
+         		 list.add(future);
+         	}
+         	
+         	 for(Future<String> fut : list){
+                 try {
+                     //print the return value of Future, notice the output delay in console
+                     // because Future.get() waits for task to get completed
+                	 listener.getLogger().println(new Date()+ "::"+fut.get());
+                	 
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                     listener.getLogger().println(e);
+                 }
+             }
+         		//Runnable worker = new ChefThread(node, username, port, privatekey, command);
+         		//Runnable worker = t;
+         		/*Callable worker = t;
+         		executor.execute(worker);
+*/         		//	output = t.getOutput();
+         	//	listener.getLogger().println(output);
+         	 executor.shutdown();
+			return true;
+         	 
+         	}
+    public void perform(@Nonnull Run<?, ?> run, @Nonnull Launcher launcher, @Nonnull TaskListener listener) throws InterruptedException, IOException {
+    	String output = null;     
+    	this.run = run;
+    	
+    	listener.getLogger().println("Execute chef-client in parallel is set to : " + parallel);
+    	listener.getLogger().println("Fail the build if the command fails to run on any of the chef node is set to : " + fail);
+    	listener.getLogger().println("sinatra url is  : " + sinatraurl);
               ChefXmlParser parser = new ChefXmlParser();
              
          //     ArrayList<Integer> exitValue = new ArrayList();
@@ -147,10 +201,8 @@ public class ChefBuilderConfiguration extends Builder {
 */         		//	output = t.getOutput();
          	//	listener.getLogger().println(output);
          	 executor.shutdown();
-			return true;
-         	 
+			 
          	}
-         	
            
     		/*// Wait until all threads are finish
     		while (!executor.isTerminated()) {
@@ -360,5 +412,14 @@ public class ChefBuilderConfiguration extends Builder {
             return super.configure(req,formData);
         }
     }
+
+	@Override
+	public void perform(Run<?, ?> arg0, FilePath arg1, Launcher arg2, TaskListener arg3)
+			throws InterruptedException, IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
 

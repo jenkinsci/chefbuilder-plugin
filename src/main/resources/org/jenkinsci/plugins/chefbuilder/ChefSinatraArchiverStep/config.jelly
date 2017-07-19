@@ -1,0 +1,65 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+   
+  <f:entry title="Chef Web Server Url" help="/plugin/sinatra-chef-builder/url.html" >
+    <f:textbox field="url" />
+  </f:entry>
+     <f:entry title="Chef Sinatra web Url" help="/plugin/sinatra-chef-builder/sinatraurl.html" >
+    <f:textbox field="sinatraurl" />
+     </f:entry>
+   <f:validateButton
+                            title="${%Test Connection}" progress="${%Testing...}"
+                            method="testConnection"
+                            with="url,sinatraurl"/>
+   
+  <f:entry title="Cookbook filter" field="filter" help="/plugin/sinatra-chef-builder/filter.html" >
+    <f:textbox />
+  </f:entry>
+  
+   <f:validateButton
+                            title="${%Validate Syntax}" progress="${%Testing...}"
+                            method="validate"
+                            with="filter"/>
+                      
+ 
+  <f:validateButton
+                            title="${%Fetch Nodes}" progress="${%Fetching...}"
+                            method="fetch"
+                            with="sinatraurl,filter"/>
+                            
+  <f:entry title="Username to connect with" field="username" help="/plugin/sinatra-chef-builder/username.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Port" field="port" help="/plugin/sinatra-chef-builder/port.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Command" field="command" help="/plugin/sinatra-chef-builder/command.html">
+    <f:textbox />
+  </f:entry>
+  
+   <f:entry title="Private key file path" field="privatekey" help="/plugin/sinatra-chef-builder/key.html">
+    <f:textbox />
+  </f:entry>
+  
+                            
+  <f:entry title="Execute chef-client in parallel ?" field="parallel" help="/plugin/sinatra-chef-builder/parallel.html">
+    <f:checkbox />
+  </f:entry>
+  
+   <f:entry title="Fail the build if the chef client fails" field="fail" help="/plugin/sinatra-chef-builder/fail.html">
+    <f:checkbox />
+  </f:entry>
+  
+</j:jelly>
