@@ -9,6 +9,7 @@
   <!--
     Creates a text field that shows the value of the "name" property.
     When submitted, it will be passed to the corresponding constructor parameter.
+    Fixed the method syntax typo issues below 
   -->
    
   <f:entry title="Chef Web Server Url" help="/plugin/sinatra-chef-builder/url.html" >
